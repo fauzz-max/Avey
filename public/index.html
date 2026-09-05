@@ -3,149 +3,172 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Avey - IELTS Writing Coach</title>
+    <title>Avey — IELTS Writing Platform</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <div id="login-view" class="view active-view flex-center">
-        <div class="login-card">
-            <div class="brand-header">
-                <span class="logo-text">Avey</span>
-                <div class="icon-badge"><i class="fa-solid fa-pen-nib"></i></div>
+    <!-- Экран Авторизации -->
+    <div id="auth-screen" class="screen active">
+        <div class="auth-card">
+            <div class="brand-logo-center">
+                <i class="fa-solid fa-pen-nib brand-icon"></i>
+                <span>Avey</span>
             </div>
-            <h2>Welcome to Avey</h2>
-            <p class="subtitle">Start practicing your IELTS essay writing</p>
-            <button id="btn-login" class="btn-orange">Get Started</button>
+            <h2>Welcome Back</h2>
+            <p class="subtitle">Elevate your IELTS writing score with AI-powered feedback</p>
+            <button id="btn-login" class="btn-primary full-width">Get Started</button>
         </div>
     </div>
 
-    <div id="app-layout" class="view">
-        <div class="app-container">
-            <aside class="sidebar">
-                <div class="brand-logo">Avey</div>
-                <nav class="sidebar-nav">
-                    <button class="nav-btn active" onclick="switchTab('practice')">
-                        <i class="fa-solid fa-pen-nib"></i> Practice
-                    </button>
-                    <button class="nav-btn" onclick="switchTab('history')">
-                        <i class="fa-solid fa-clock-rotate-left"></i> History
-                    </button>
-                    <button class="nav-btn" onclick="switchTab('analytics')">
-                        <i class="fa-solid fa-chart-line"></i> Analytics
-                    </button>
-                    <button class="nav-btn" onclick="switchTab('tutor')">
-                        <i class="fa-solid fa-robot"></i> AI Tutor
-                    </button>
-                </nav>
-                <button id="btn-logout" class="nav-btn logout-btn">
-                    <i class="fa-solid fa-arrow-right-from-bracket"></i> Exit
+    <!-- Главный Интерфейс -->
+    <div id="app-screen" class="screen">
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <i class="fa-solid fa-pen-nib"></i>
+                <span>Avey</span>
+            </div>
+            <nav class="sidebar-menu">
+                <button class="nav-item active" data-tab="practice">
+                    <i class="fa-solid fa-file-pen"></i> Practice
                 </button>
-            </aside>
+                <button class="nav-item" data-tab="history">
+                    <i class="fa-solid fa-clock-rotate-left"></i> History
+                </button>
+                <button class="nav-item" data-tab="analytics">
+                    <i class="fa-solid fa-chart-pie"></i> Analytics
+                </button>
+                <button class="nav-item" data-tab="tutor">
+                    <i class="fa-solid fa-robot"></i> AI Tutor
+                </button>
+            </nav>
+            <button id="btn-logout" class="nav-item logout-btn">
+                <i class="fa-solid fa-right-from-bracket"></i> Exit
+            </button>
+        </aside>
 
-            <main class="main-content">
-                
-                <div id="tab-practice" class="tab-content active-tab">
-                    <h2 class="page-title">Practice</h2>
-                    <p class="page-subtitle">Choose a topic and write your essay</p>
-
-                    <div class="topic-list">
-                        <div class="card topic-card" onclick="openEditor('Some people believe that governments should invest more in public transport, while others think that building more roads is a better solution. Discuss both views and give your own opinion.')">
-                            <div class="topic-header">
-                                <i class="fa-solid fa-arrow-right icon-arrow"></i>
-                                <span class="badge">Task 2</span>
-                            </div>
-                            <p class="topic-text">Some people believe that governments should invest more in public transport, while others think that building more roads is a better solution. Discuss both views and give your own opinion.</p>
+        <main class="content-area">
+            
+            <!-- Вкладка 1: Practice -->
+            <section id="tab-practice" class="tab-pane active">
+                <div class="header-block">
+                    <h1>Practice Topics</h1>
+                    <p class="subtitle">Select an essay topic to begin practicing</p>
+                </div>
+                <div class="cards-stack">
+                    <div class="card topic-card" onclick="startEssay('Some people believe that governments should invest more in public transport, while others think building more roads is better. Discuss both views and give your opinion.')">
+                        <div class="card-meta">
+                            <span class="tag">IELTS Task 2</span>
+                            <i class="fa-solid fa-arrow-right icon-go"></i>
                         </div>
+                        <h3>Public Transport vs. Road Infrastructure</h3>
+                        <p>Some people believe that governments should invest more in public transport, while others think building more roads is better. Discuss both views and give your opinion.</p>
+                    </div>
 
-                        <div class="card topic-card" onclick="openEditor('In some countries, young people are encouraged to work or travel for a year before going to university. Do the advantages of this outweigh the disadvantages?')">
-                            <div class="topic-header">
-                                <i class="fa-solid fa-arrow-right icon-arrow"></i>
-                                <span class="badge">Task 2</span>
-                            </div>
-                            <p class="topic-text">In some countries, young people are encouraged to work or travel for a year before going to university. Do the advantages of this outweigh the disadvantages?</p>
+                    <div class="card topic-card" onclick="startEssay('In many countries, young people are encouraged to work or travel for a year before attending university. Do the advantages of this gap year outweigh the disadvantages?')">
+                        <div class="card-meta">
+                            <span class="tag">IELTS Task 2</span>
+                            <i class="fa-solid fa-arrow-right icon-go"></i>
+                        </div>
+                        <h3>Taking a Gap Year Before University</h3>
+                        <p>In many countries, young people are encouraged to work or travel for a year before attending university. Do the advantages of this gap year outweigh the disadvantages?</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Вкладка 2: Editor -->
+            <section id="tab-editor" class="tab-pane">
+                <div class="top-nav-bar">
+                    <button class="btn-secondary" onclick="switchTab('practice')"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                    <button id="btn-submit" class="btn-primary">Submit Essay</button>
+                </div>
+                <div class="editor-layout">
+                    <div class="card prompt-card">
+                        <span class="tag">Topic Prompt</span>
+                        <p id="prompt-text-display"></p>
+                    </div>
+                    <div class="card editor-card">
+                        <textarea id="essay-text" placeholder="Type your response here..."></textarea>
+                        <div class="editor-bar">
+                            <span>Word Count: <strong id="word-count-display">0</strong></span>
+                            <span>Target: 250+ words</span>
                         </div>
                     </div>
                 </div>
+            </section>
 
-                <div id="tab-editor" class="tab-content">
-                    <div class="top-bar">
-                        <button class="btn-text" onclick="switchTab('practice')"><i class="fa-solid fa-arrow-left"></i> Back</button>
-                        <button class="btn-orange fit-btn" id="btn-submit">Submit Essay</button>
+            <!-- Вкладка 3: Loading -->
+            <section id="tab-loading" class="tab-pane">
+                <div class="loading-box">
+                    <div class="spinner"></div>
+                    <h2>Evaluating Essay</h2>
+                    <p class="subtitle">Analyzing vocabulary, grammar, structure, and task fulfillment...</p>
+                </div>
+            </section>
+
+            <!-- Вкладка 4: Results -->
+            <section id="tab-results" class="tab-pane">
+                <div class="top-nav-bar">
+                    <button class="btn-secondary" onclick="switchTab('practice')"><i class="fa-solid fa-arrow-left"></i> Back to Topics</button>
+                </div>
+                <div class="results-layout">
+                    <div class="card score-summary">
+                        <h3>Overall Score</h3>
+                        <div class="big-score-badge">
+                            <span id="res-overall">0.0</span>
+                        </div>
                     </div>
-
-                    <div class="editor-grid">
-                        <div class="card">
-                            <span class="badge mb-10">Task 2</span>
-                            <p id="current-topic-display" class="topic-display-text"></p>
+                    <div class="card criteria-card">
+                        <h3>Criteria Breakdown</h3>
+                        <div class="metric-row">
+                            <div class="metric-head"><span>Task Achievement</span><strong id="res-ta">0.0</strong></div>
+                            <div class="progress-bg"><div id="bar-ta" class="progress-fill"></div></div>
                         </div>
-                        <div class="card">
-                            <textarea id="essay-input" placeholder="Type or paste your essay here..."></textarea>
-                            <div class="editor-footer">
-                                <span>Words: <strong id="word-count">0</strong></span>
-                                <span>Min 250 words</span>
-                            </div>
+                        <div class="metric-row">
+                            <div class="metric-head"><span>Coherence & Cohesion</span><strong id="res-cc">0.0</strong></div>
+                            <div class="progress-bg"><div id="bar-cc" class="progress-fill"></div></div>
                         </div>
+                        <div class="metric-row">
+                            <div class="metric-head"><span>Lexical Resource</span><strong id="res-lr">0.0</strong></div>
+                            <div class="progress-bg"><div id="bar-lr" class="progress-fill"></div></div>
+                        </div>
+                        <div class="metric-row">
+                            <div class="metric-head"><span>Grammatical Range</span><strong id="res-gr">0.0</strong></div>
+                            <div class="progress-bg"><div id="bar-gr" class="progress-fill"></div></div>
+                        </div>
+                    </div>
+                    <div class="card feedback-card full-span">
+                        <h3>Examiner Feedback</h3>
+                        <p id="res-feedback"></p>
                     </div>
                 </div>
+            </section>
 
-                <div id="tab-loading" class="tab-content text-center py-60">
-                    <i class="fa-solid fa-circle-notch fa-spin spinner"></i>
-                    <h3>Evaluating your essay...</h3>
-                    <p class="subtitle mt-10">Checking vocabulary, structure, and grammar.</p>
+            <!-- Прочие рабочие вкладки -->
+            <section id="tab-history" class="tab-pane">
+                <div class="header-block">
+                    <h1>History</h1>
+                    <p class="subtitle">Your previous evaluations and essays will be stored here.</p>
                 </div>
+            </section>
 
-                <div id="tab-results" class="tab-content">
-                    <div class="top-bar">
-                        <button class="btn-text" onclick="switchTab('practice')"><i class="fa-solid fa-arrow-left"></i> Back to tasks</button>
-                    </div>
-
-                    <div class="results-grid">
-                        <div class="card text-center">
-                            <h3>Overall Score</h3>
-                            <div class="score-circle">
-                                <div class="score-inner">
-                                    <span id="res-overall" class="num">0.0</span>
-                                    <span class="lbl">Band</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card">
-                            <h3>Criteria Breakdown</h3>
-                            <div class="bar-wrap mt-15">
-                                <div class="bar-info"><span>Task Achievement</span><span id="res-ta">0.0</span></div>
-                                <div class="bar-bg"><div class="bar-fill" id="bar-ta"></div></div>
-                            </div>
-                            <div class="bar-wrap">
-                                <div class="bar-info"><span>Coherence & Cohesion</span><span id="res-cc">0.0</span></div>
-                                <div class="bar-bg"><div class="bar-fill" id="bar-cc"></div></div>
-                            </div>
-                            <div class="bar-wrap">
-                                <div class="bar-info"><span>Lexical Resource</span><span id="res-lr">0.0</span></div>
-                                <div class="bar-bg"><div class="bar-fill" id="bar-lr"></div></div>
-                            </div>
-                            <div class="bar-wrap">
-                                <div class="bar-info"><span>Grammatical Range</span><span id="res-gr">0.0</span></div>
-                                <div class="bar-bg"><div class="bar-fill" id="bar-gr"></div></div>
-                            </div>
-                        </div>
-
-                        <div class="card full-width">
-                            <h3>Feedback</h3>
-                            <p id="res-feedback" class="feedback-text mt-10"></p>
-                        </div>
-                    </div>
+            <section id="tab-analytics" class="tab-pane">
+                <div class="header-block">
+                    <h1>Analytics</h1>
+                    <p class="subtitle">Track your progress and target band goals over time.</p>
                 </div>
+            </section>
 
-                <div id="tab-history" class="tab-content"><h2 class="page-title">History</h2><p class="subtitle">Your previous evaluations will appear here.</p></div>
-                <div id="tab-analytics" class="tab-content"><h2 class="page-title">Analytics</h2><p class="subtitle">Track your band score over time.</p></div>
-                <div id="tab-tutor" class="tab-content"><h2 class="page-title">AI Tutor</h2><p class="subtitle">Ask questions about IELTS Writing.</p></div>
+            <section id="tab-tutor" class="tab-pane">
+                <div class="header-block">
+                    <h1>AI Tutor</h1>
+                    <p class="subtitle">Ask questions about vocabulary, sentence structures, and essay templates.</p>
+                </div>
+            </section>
 
-            </main>
-        </div>
+        </main>
     </div>
 
     <script src="script.js"></script>

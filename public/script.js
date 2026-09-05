@@ -1,90 +1,92 @@
-let currentTopic = '';
+let currentTopicText = '';
 
-// Переключение между Входом и Главным окном
-function switchView(viewId) {
-    document.querySelectorAll('.view').forEach(v => v.classList.remove('active-view'));
-    document.getElementById(viewId).classList.add('active-view');
+// Переключение основных экранов (Login / App)
+function setScreen(screenId) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(screenId).classList.add('active');
 }
 
-// Переключение вкладок внутри приложения
-function switchTab(tabName) {
-    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active-tab'));
-    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+// Переключение вкладок в главном меню
+function switchTab(tabId) {
+    document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-item[data-tab]').forEach(btn => btn.classList.remove('active'));
 
-    const selectedTab = document.getElementById(`tab-${tabName}`);
-    if (selectedTab) selectedTab.classList.add('active-tab');
+    const targetPane = document.getElementById(`tab-${tabId}`);
+    if (targetPane) targetPane.classList.add('active');
 
-    // Подсветка кнопки в сайдбаре
-    const activeBtn = Array.from(document.querySelectorAll('.nav-btn'))
-        .find(b => b.getAttribute('onclick')?.includes(tabName));
+    const activeBtn = document.querySelector(`.nav-item[data-tab="${tabId}"]`);
     if (activeBtn) activeBtn.classList.add('active');
 }
 
-// Авторизация
+// Навешивание кликов на боковое меню
+document.querySelectorAll('.nav-item[data-tab]').forEach(btn => {
+    btn.addEventListener('click', () => {
+        switchTab(btn.getAttribute('data-tab'));
+    });
+});
+
+// Кнопки Авторизации / Выхода
 document.getElementById('btn-login')?.addEventListener('click', () => {
-    switchView('app-layout');
+    setScreen('app-screen');
     switchTab('practice');
 });
 
 document.getElementById('btn-logout')?.addEventListener('click', () => {
-    switchView('login-view');
+    setScreen('auth-screen');
 });
 
-// Редактор
-function openEditor(topic) {
-    currentTopic = topic;
-    document.getElementById('current-topic-display').innerText = topic;
-    document.getElementById('essay-input').value = '';
-    document.getElementById('word-count').innerText = '0';
+// Открытие редактора с выбранной темой
+function startEssay(promptText) {
+    currentTopicText = promptText;
+    document.getElementById('prompt-text-display').innerText = promptText;
+    document.getElementById('essay-text').value = '';
+    document.getElementById('word-count-display').innerText = '0';
     switchTab('editor');
 }
 
-document.getElementById('essay-input')?.addEventListener('input', (e) => {
+// Подсчет слов в режиме реального времени
+document.getElementById('essay-text')?.addEventListener('input', (e) => {
     const text = e.target.value.trim();
-    const count = text ? text.split(/\s+/).length : 0;
-    document.getElementById('word-count').innerText = count;
+    const words = text ? text.split(/\s+/).length : 0;
+    document.getElementById('word-count-display').innerText = words;
 });
 
-// Отправка на API
+// Отправка на бэкенд
 document.getElementById('btn-submit')?.addEventListener('click', async () => {
-    const essay = document.getElementById('essay-input').value.trim();
-    if (!essay) return alert('Пожалуйста, введите текст эссе.');
+    const essay = document.getElementById('essay-text').value.trim();
+
+    if (!essay) {
+        return alert('Пожалуйста, напишите текст эссе перед отправкой.');
+    }
 
     switchTab('loading');
 
     try {
-        const res = await fetch('/api/evaluate', {
+        const response = await fetch('/api/evaluate', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ topic: currentTopic, essay })
+            body: JSON.stringify({ topic: currentTopicText, essay })
         });
 
-        // Защита от ошибок формата (Not Found / Text Error)
-        const textResponse = await res.text();
-        let data;
-        try {
-            data = JSON.parse(textResponse);
-        } catch (e) {
-            throw new Error(`Ответ сервера не является JSON: ${textResponse}`);
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.error || 'Ошибка при генерации оценки');
         }
 
-        if (!res.ok) throw new Error(data.error || 'Ошибка при оценке');
+        // Заполнение результатов
+        document.getElementById('res-overall').innerText = data.overallScore ?? '0.0';
+        document.getElementById('res-ta').innerText = data.taskAchievement ?? '0.0';
+        document.getElementById('res-cc').innerText = data.coherence ?? '0.0';
+        document.getElementById('res-lr').innerText = data.lexicalResource ?? '0.0';
+        document.getElementById('res-gr').innerText = data.grammar ?? '0.0';
+        document.getElementById('res-feedback').innerText = data.feedback ?? 'Оценка завершена.';
 
-        // Отображение результатов
-        document.getElementById('res-overall').innerText = data.overallScore;
-        document.getElementById('res-ta').innerText = data.taskAchievement;
-        document.getElementById('res-cc').innerText = data.coherence;
-        document.getElementById('res-lr').innerText = data.lexicalResource;
-        document.getElementById('res-gr').innerText = data.grammar;
-        document.getElementById('res-feedback').innerText = data.feedback;
-
-        const circle = document.querySelector('.score-circle');
-        if (circle) circle.style.setProperty('--score-val', (data.overallScore / 9) * 10);
-
-        document.getElementById('bar-ta').style.width = `${(data.taskAchievement / 9) * 100}%`;
-        document.getElementById('bar-cc').style.width = `${(data.coherence / 9) * 100}%`;
-        document.getElementById('bar-lr').style.width = `${(data.lexicalResource / 9) * 100}%`;
-        document.getElementById('bar-gr').style.width = `${(data.grammar / 9) * 100}%`;
+        // Заполнение прогресс-баров (Band scale 0-9)
+        document.getElementById('bar-ta').style.width = `${((data.taskAchievement || 0) / 9) * 100}%`;
+        document.getElementById('bar-cc').style.width = `${((data.coherence || 0) / 9) * 100}%`;
+        document.getElementById('bar-lr').style.width = `${((data.lexicalResource || 0) / 9) * 100}%`;
+        document.getElementById('bar-gr').style.width = `${((data.grammar || 0) / 9) * 100}%`;
 
         switchTab('results');
     } catch (err) {
