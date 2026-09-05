@@ -15,7 +15,7 @@ app.post('/api/evaluate', async (req, res) => {
         const { topic, essay } = req.body;
 
         if (!process.env.GEMINI_API_KEY) {
-            return res.status(500).json({ error: 'GEMINI_API_KEY не задан на сервере.' });
+            return res.status(500).json({ error: 'GEMINI_API_KEY не установлен в Environment Variables на Render.' });
         }
 
         if (!essay || essay.trim().split(/\s+/).length < 10) {
@@ -49,7 +49,7 @@ app.post('/api/evaluate', async (req, res) => {
         res.json(data);
     } catch (error) {
         console.error('API Error:', error);
-        res.status(500).json({ error: error.message || 'Ошибка обработки эссе на сервере.' });
+        res.status(500).json({ error: error.message || 'Ошибка обработки на сервере.' });
     }
 });
 

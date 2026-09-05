@@ -11,119 +11,141 @@
 <body>
 
     <div id="login-view" class="view active-view flex-center">
-        <div class="login-card text-center">
-            <div class="brand-logo">Avey <i class="fa-solid fa-pen-nib text-orange"></i></div>
+        <div class="login-card">
+            <div class="brand-header">
+                <span class="logo-text">Avey</span>
+                <div class="icon-badge"><i class="fa-solid fa-pen-nib"></i></div>
+            </div>
             <h2>Welcome to Avey</h2>
-            <p class="text-muted mt-8">Start practicing your IELTS essay writing</p>
-            <button id="btn-login" class="btn-orange mt-24">Get Started</button>
+            <p class="subtitle">Start practicing your IELTS essay writing</p>
+            <button id="btn-login" class="btn-orange">Get Started</button>
         </div>
     </div>
 
-    <div id="app-layout" class="view layout-grid">
-        <aside class="sidebar">
-            <div class="brand-logo">Avey</div>
-            <nav class="sidebar-nav">
-                <a href="#" class="nav-btn active"><i class="fa-solid fa-pen-nib"></i> Practice</a>
-                <a href="#" class="nav-btn"><i class="fa-solid fa-clock-rotate-left"></i> History</a>
-                <a href="#" class="nav-btn"><i class="fa-solid fa-chart-line"></i> Analytics</a>
-                <a href="#" class="nav-btn"><i class="fa-solid fa-robot"></i> AI Tutor</a>
-            </nav>
-            <button id="btn-logout" class="nav-btn text-muted"><i class="fa-solid fa-arrow-right-from-bracket"></i> Exit</button>
-        </aside>
+    <div id="app-layout" class="view">
+        <div class="app-container">
+            <aside class="sidebar">
+                <div class="brand-logo">Avey</div>
+                <nav class="sidebar-nav">
+                    <button class="nav-btn active" onclick="switchTab('practice')">
+                        <i class="fa-solid fa-pen-nib"></i> Practice
+                    </button>
+                    <button class="nav-btn" onclick="switchTab('history')">
+                        <i class="fa-solid fa-clock-rotate-left"></i> History
+                    </button>
+                    <button class="nav-btn" onclick="switchTab('analytics')">
+                        <i class="fa-solid fa-chart-line"></i> Analytics
+                    </button>
+                    <button class="nav-btn" onclick="switchTab('tutor')">
+                        <i class="fa-solid fa-robot"></i> AI Tutor
+                    </button>
+                </nav>
+                <button id="btn-logout" class="nav-btn logout-btn">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i> Exit
+                </button>
+            </aside>
 
-        <main class="main-content">
-            <div id="practice-list-view" class="content-view active-content">
-                <h2>Practice</h2>
-                <p class="text-muted mb-20">Choose a topic and write your essay</p>
+            <main class="main-content">
+                
+                <div id="tab-practice" class="tab-content active-tab">
+                    <h2 class="page-title">Practice</h2>
+                    <p class="page-subtitle">Choose a topic and write your essay</p>
 
-                <div class="card topic-card" onclick="openEditor('Some people believe that governments should invest more in public transport, while others think that building more roads is a better solution. Discuss both views and give your own opinion.')">
-                    <div class="flex-between mb-8">
-                        <i class="fa-solid fa-arrow-right text-orange"></i>
-                        <span class="badge">Task 2</span>
-                    </div>
-                    <p class="font-medium">Some people believe that governments should invest more in public transport, while others think that building more roads is a better solution. Discuss both views and give your own opinion.</p>
-                </div>
+                    <div class="topic-list">
+                        <div class="card topic-card" onclick="openEditor('Some people believe that governments should invest more in public transport, while others think that building more roads is a better solution. Discuss both views and give your own opinion.')">
+                            <div class="topic-header">
+                                <i class="fa-solid fa-arrow-right icon-arrow"></i>
+                                <span class="badge">Task 2</span>
+                            </div>
+                            <p class="topic-text">Some people believe that governments should invest more in public transport, while others think that building more roads is a better solution. Discuss both views and give your own opinion.</p>
+                        </div>
 
-                <div class="card topic-card" onclick="openEditor('In some countries, young people are encouraged to work or travel for a year before going to university. Do the advantages of this outweigh the disadvantages?')">
-                    <div class="flex-between mb-8">
-                        <i class="fa-solid fa-arrow-right text-orange"></i>
-                        <span class="badge">Task 2</span>
-                    </div>
-                    <p class="font-medium">In some countries, young people are encouraged to work or travel for a year before going to university. Do the advantages of this outweigh the disadvantages?</p>
-                </div>
-            </div>
-
-            <div id="editor-view" class="content-view">
-                <div class="flex-between mb-20">
-                    <button class="btn-text" onclick="backToPractice()"><i class="fa-solid fa-arrow-left"></i> Back</button>
-                    <button class="btn-orange" id="btn-submit">Submit Essay</button>
-                </div>
-
-                <div class="editor-layout">
-                    <div class="card">
-                        <h3>Task 2</h3>
-                        <p id="current-topic-display" class="mt-8 text-sm font-medium"></p>
-                    </div>
-
-                    <div class="card editor-box">
-                        <textarea id="essay-input" placeholder="Type or paste your essay here..."></textarea>
-                        <div class="flex-between mt-12 text-sm text-muted">
-                            <span>Words: <strong id="word-count">0</strong></span>
-                            <span>Min 250 words required</span>
+                        <div class="card topic-card" onclick="openEditor('In some countries, young people are encouraged to work or travel for a year before going to university. Do the advantages of this outweigh the disadvantages?')">
+                            <div class="topic-header">
+                                <i class="fa-solid fa-arrow-right icon-arrow"></i>
+                                <span class="badge">Task 2</span>
+                            </div>
+                            <p class="topic-text">In some countries, young people are encouraged to work or travel for a year before going to university. Do the advantages of this outweigh the disadvantages?</p>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div id="loading-view" class="content-view text-center py-40">
-                <i class="fa-solid fa-circle-notch fa-spin text-orange text-3xl mb-16"></i>
-                <h3>Assessing your essay...</h3>
-                <p class="text-muted mt-8">Analyzing vocabulary, grammar, and task accomplishment.</p>
-            </div>
+                <div id="tab-editor" class="tab-content">
+                    <div class="top-bar">
+                        <button class="btn-text" onclick="switchTab('practice')"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                        <button class="btn-orange fit-btn" id="btn-submit">Submit Essay</button>
+                    </div>
 
-            <div id="results-view" class="content-view">
-                <div class="flex-between mb-20">
-                    <button class="btn-text" onclick="backToPractice()"><i class="fa-solid fa-arrow-left"></i> Back to tasks</button>
-                </div>
-
-                <div class="results-layout">
-                    <div class="card text-center">
-                        <h3>Overall Score</h3>
-                        <div class="score-circle mt-16">
-                            <div class="score-inner">
-                                <span id="res-overall" class="num">0.0</span>
-                                <span class="lbl">Band</span>
+                    <div class="editor-grid">
+                        <div class="card">
+                            <span class="badge mb-10">Task 2</span>
+                            <p id="current-topic-display" class="topic-display-text"></p>
+                        </div>
+                        <div class="card">
+                            <textarea id="essay-input" placeholder="Type or paste your essay here..."></textarea>
+                            <div class="editor-footer">
+                                <span>Words: <strong id="word-count">0</strong></span>
+                                <span>Min 250 words</span>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <div class="card">
-                        <h3>Criteria Breakdown</h3>
-                        <div class="bar-wrap mt-16">
-                            <div class="bar-info"><span>Task Achievement</span><span id="res-ta">0.0</span></div>
-                            <div class="bar-bg"><div class="bar-fill" id="bar-ta"></div></div>
-                        </div>
-                        <div class="bar-wrap">
-                            <div class="bar-info"><span>Coherence & Cohesion</span><span id="res-cc">0.0</span></div>
-                            <div class="bar-bg"><div class="bar-fill" id="bar-cc"></div></div>
-                        </div>
-                        <div class="bar-wrap">
-                            <div class="bar-info"><span>Lexical Resource</span><span id="res-lr">0.0</span></div>
-                            <div class="bar-bg"><div class="bar-fill" id="bar-lr"></div></div>
-                        </div>
-                        <div class="bar-wrap">
-                            <div class="bar-info"><span>Grammatical Range</span><span id="res-gr">0.0</span></div>
-                            <div class="bar-bg"><div class="bar-fill" id="bar-gr"></div></div>
-                        </div>
+                <div id="tab-loading" class="tab-content text-center py-60">
+                    <i class="fa-solid fa-circle-notch fa-spin spinner"></i>
+                    <h3>Evaluating your essay...</h3>
+                    <p class="subtitle mt-10">Checking vocabulary, structure, and grammar.</p>
+                </div>
+
+                <div id="tab-results" class="tab-content">
+                    <div class="top-bar">
+                        <button class="btn-text" onclick="switchTab('practice')"><i class="fa-solid fa-arrow-left"></i> Back to tasks</button>
                     </div>
 
-                    <div class="card full-width">
-                        <h3>Feedback</h3>
-                        <p id="res-feedback" class="mt-12 text-sm leading-relaxed"></p>
+                    <div class="results-grid">
+                        <div class="card text-center">
+                            <h3>Overall Score</h3>
+                            <div class="score-circle">
+                                <div class="score-inner">
+                                    <span id="res-overall" class="num">0.0</span>
+                                    <span class="lbl">Band</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <h3>Criteria Breakdown</h3>
+                            <div class="bar-wrap mt-15">
+                                <div class="bar-info"><span>Task Achievement</span><span id="res-ta">0.0</span></div>
+                                <div class="bar-bg"><div class="bar-fill" id="bar-ta"></div></div>
+                            </div>
+                            <div class="bar-wrap">
+                                <div class="bar-info"><span>Coherence & Cohesion</span><span id="res-cc">0.0</span></div>
+                                <div class="bar-bg"><div class="bar-fill" id="bar-cc"></div></div>
+                            </div>
+                            <div class="bar-wrap">
+                                <div class="bar-info"><span>Lexical Resource</span><span id="res-lr">0.0</span></div>
+                                <div class="bar-bg"><div class="bar-fill" id="bar-lr"></div></div>
+                            </div>
+                            <div class="bar-wrap">
+                                <div class="bar-info"><span>Grammatical Range</span><span id="res-gr">0.0</span></div>
+                                <div class="bar-bg"><div class="bar-fill" id="bar-gr"></div></div>
+                            </div>
+                        </div>
+
+                        <div class="card full-width">
+                            <h3>Feedback</h3>
+                            <p id="res-feedback" class="feedback-text mt-10"></p>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </main>
+
+                <div id="tab-history" class="tab-content"><h2 class="page-title">History</h2><p class="subtitle">Your previous evaluations will appear here.</p></div>
+                <div id="tab-analytics" class="tab-content"><h2 class="page-title">Analytics</h2><p class="subtitle">Track your band score over time.</p></div>
+                <div id="tab-tutor" class="tab-content"><h2 class="page-title">AI Tutor</h2><p class="subtitle">Ask questions about IELTS Writing.</p></div>
+
+            </main>
+        </div>
     </div>
 
     <script src="script.js"></script>
