@@ -15,14 +15,13 @@ app.post('/api/evaluate', async (req, res) => {
         const { topic, essay } = req.body;
 
         if (!process.env.GEMINI_API_KEY) {
-            return res.status(500).json({ error: 'GEMINI_API_KEY не установлен в переменной окружения.' });
+            return res.status(500).json({ error: 'GEMINI_API_KEY не задан на сервере.' });
         }
 
         if (!essay || essay.trim().split(/\s+/).length < 10) {
             return res.status(400).json({ error: 'Эссе слишком короткое.' });
         }
 
-        // Принудительный JSON-формат через SDK
         const model = genAI.getGenerativeModel({ 
             model: 'gemini-1.5-flash',
             generationConfig: { responseMimeType: "application/json" }
@@ -40,7 +39,7 @@ app.post('/api/evaluate', async (req, res) => {
             "coherence": 6.0,
             "lexicalResource": 6.5,
             "grammar": 6.5,
-            "feedback": "Concise feedback here..."
+            "feedback": "Concise feedback paragraph explaining the strengths and weaknesses."
         }
         `;
 

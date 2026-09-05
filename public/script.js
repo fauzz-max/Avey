@@ -39,7 +39,7 @@ document.getElementById('essay-input')?.addEventListener('input', (e) => {
 
 document.getElementById('btn-submit')?.addEventListener('click', async () => {
     const essay = document.getElementById('essay-input').value.trim();
-    if (!essay) return alert('Напишите эссе перед отправкой.');
+    if (!essay) return alert('Пожалуйста, напишите эссе.');
 
     switchContent('loading-view');
 
@@ -53,7 +53,6 @@ document.getElementById('btn-submit')?.addEventListener('click', async () => {
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || 'Ошибка проверки');
 
-        // Отрисовка результатов
         document.getElementById('res-overall').innerText = data.overallScore;
         document.getElementById('res-ta').innerText = data.taskAchievement;
         document.getElementById('res-cc').innerText = data.coherence;
@@ -61,7 +60,6 @@ document.getElementById('btn-submit')?.addEventListener('click', async () => {
         document.getElementById('res-gr').innerText = data.grammar;
         document.getElementById('res-feedback').innerText = data.feedback;
 
-        // Обновление круга и полос
         const circle = document.querySelector('.score-circle');
         if (circle) circle.style.setProperty('--score-val', (data.overallScore / 9) * 10);
 
